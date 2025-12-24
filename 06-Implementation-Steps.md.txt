@@ -1,3 +1,0 @@
-The implementation of the HOMENET lab followed a structured, phased approach. Initial steps involved configuring VMware networking and deploying a pfSense firewall to establish routing and network isolation. An Ubuntu Server system was then installed and configured with a static IP address and appropriate hostname settings prior to Active Directory provisioning.
-
-Subsequent steps included provisioning the Samba Active Directory domain, integrating DNS and Kerberos services, validating authentication functionality, and creating initial users and groups. Each phase was tested before proceeding to the next to ensure system stability and correctness. This methodical approach reflects real-world change management and deployment practices.

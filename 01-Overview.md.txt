@@ -1,3 +1,0 @@
-This project was created to simulate a real enterprise IT environment in which centralized identity, networking, and security services are designed, implemented, and operated by an administrator. Rather than relying on pre-built images or guided labs, the environment was built from the ground up to ensure a deep understanding of how each component works and how they interact.
-
-The primary objective of the HOMENET lab is to replicate real-world scenarios encountered by Network, SysOps, and DevOps engineers, including firewalling, DNS dependency, Kerberos authentication, user and group management, and troubleshooting misconfigurations. The project emphasises understanding design decisions and operational behaviour rather than simply achieving a working configuration.
