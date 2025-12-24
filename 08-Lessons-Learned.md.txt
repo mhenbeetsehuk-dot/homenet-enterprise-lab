@@ -1,0 +1,3 @@
+The most significant lesson from this project is the central role DNS plays in enterprise identity systems. Active Directory, Kerberos, and authentication workflows are entirely dependent on correct DNS configuration, and even minor misalignments can result in complete service failure. Understanding this dependency is essential for effective troubleshooting.
+
+The project also highlighted the value of designing systems deliberately rather than relying on default configurations or graphical tools. Building Active Directory using Samba provided insight into the internal mechanics of identity services and reinforced the importance of clean architecture, documentation, and disciplined operational practices.

@@ -1,0 +1,3 @@
+During the build process, several issues were intentionally and unintentionally encountered, providing valuable troubleshooting experience. One significant issue involved Kerberos authentication failures caused by DNS misconfiguration and conflicts with system-level DNS services. Investigation revealed that systemd-resolved was occupying port 53, preventing Samba from providing DNS services.
+
+The issue was resolved by disabling conflicting services, ensuring Samba owned DNS resolution, and re-provisioning the domain cleanly. This experience reinforced the importance of understanding service dependencies and demonstrated that rebuilding a misconfigured identity service is often faster and safer than attempting incremental fixes.
