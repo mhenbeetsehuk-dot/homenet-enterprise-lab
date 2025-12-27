@@ -1,3 +1,0 @@
-Active Directory services in the HOMENET lab are provided by a Samba Active Directory Domain Controller hosted on Ubuntu Server. The domain was provisioned with the realm HOMENET.COM and NetBIOS name HOMENET, with the domain controller configured as dc1.homenet.com. Samba’s internal DNS backend was used to tightly integrate directory services with name resolution.
-
-Special attention was given to DNS and Kerberos configuration, as these are foundational to Active Directory functionality. During implementation, issues related to DNS port conflicts and system resolver behaviour were identified and resolved. This process reinforced the importance of DNS ownership by the domain controller and highlighted common real-world causes of authentication failures.

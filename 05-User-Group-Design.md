@@ -1,3 +1,0 @@
-User and group design within the HOMENET domain follows role-based access control (RBAC) principles. Rather than assigning permissions directly to individual users, access is managed through security groups that represent organisational roles such as Staff, IT-Admins, and Linux-Admins. This approach ensures scalability, security, and ease of administration.
-
-Multiple user types were created to reflect real enterprise usage, including standard user accounts, privileged IT accounts, and non-interactive service accounts. This structure mirrors best practices used in production environments and forms the foundation for applying policies, access controls, and authentication rules consistently across systems.
