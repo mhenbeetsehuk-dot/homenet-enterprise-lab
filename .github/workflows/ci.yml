@@ -9,7 +9,6 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,23 +18,23 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install validation dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml
 
-      - name: Run repo validations
+      - name: Run repository validations
         run: |
           chmod +x scripts/validate.sh
           ./scripts/validate.sh
 
-      - name: Validate Samba smb.conf using testparm (Docker)
+      - name: Validate Samba smb.conf (testparm via Docker)
         run: |
           if [ -f "configs/samba/smb.conf" ]; then
-            echo "Running testparm against configs/samba/smb.conf"
+            echo "Validating configs/samba/smb.conf with testparm"
             docker run --rm -v "$PWD:/work" -w /work ghcr.io/servercontainers/samba:latest \
               testparm -s /work/configs/samba/smb.conf
             echo "OK: smb.conf validated"
           else
-            echo "No configs/samba/smb.conf found - skipping"
+            echo "No smb.conf found - skipping"
           fi
