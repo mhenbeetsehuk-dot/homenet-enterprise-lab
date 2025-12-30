@@ -1,0 +1,68 @@
+name: HOMENET CD (Manual Deploy)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Deploy target"
+        required: true
+        default: "netplan-and-samba"
+        type: choice
+        options:
+          - netplan-and-samba
+          - netplan-only
+          - samba-only
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Create evidence folder
+        run: mkdir -p evidence
+
+      # --- Pre-checks ---
+      - name: Validate Netplan YAML parses
+        run: |
+          python - <<'PY'
+          import glob, sys
+          import yaml
+          files = glob.glob("configs/netplan/**/*.yml", recursive=True) + glob.glob("configs/netplan/**/*.yaml", recursive=True)
+          if not files:
+            print("No netplan YAML found under configs/netplan/")
+            sys.exit(0)
+          for f in files:
+            with open(f, "r", encoding="utf-8") as fp:
+              yaml.safe_load(fp)
+          print(f"OK: Parsed {len(files)} netplan YAML file(s)")
+          PY
+        if: ${{ github.event.inputs.target != 'samba-only' }}
+
+      - name: Validate Samba smb.conf using testparm (Docker)
+        run: |
+          if [ -f "configs/samba/smb.conf" ]; then
+            docker run --rm -v "$PWD:/work" -w /work ghcr.io/servercontainers/samba:latest \
+              testparm -s /work/configs/samba/smb.conf | tee evidence/testparm.txt
+            echo "OK: smb.conf validated"
+          else
+            echo "No configs/samba/smb.conf found" | tee evidence/testparm.txt
+            exit 1
+          fi
+        if: ${{ github.event.inputs.target != 'netplan-only' }}
+
+      # --- Deployment Note ---
+      - name: Deployment note (manual apply required)
+        run: |
+          echo "This workflow validates deployable artifacts and produces evidence." | tee evidence/deploy-note.txt
+          echo "Applying netplan/samba changes to a real server requires a self-hosted runner on that server." | tee -a evidence/deploy-note.txt
+          echo "Next step: add a self-hosted runner to your HOMENET server for real deployments." | tee -a evidence/deploy-note.txt
+
+      # --- Upload evidence ---
+      - name: Upload evidence artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: homenet-deploy-evidence
+          path: evidence/
