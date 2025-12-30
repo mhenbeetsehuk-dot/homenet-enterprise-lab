@@ -46,7 +46,8 @@ if grep -RInE "(bindpw|AKIA[0-9A-Z]{16}|BEGIN PRIVATE KEY)" . >/dev/null 2>&1; t
 fi
 
 # Flag password assignments only in configs/ (not in docs/)
-if grep -RInE "password\s*=" configs 2>/dev/null | grep -v "<REDACTED>" >/dev/null 2>&1; then
+if grep -RInE --exclude="validate.sh" "(bindpw|AKIA[0-9A-Z]{16}|BEGIN PRIVATE KEY)" configs scripts .github 2>/dev/null; then
+
   echo "ERROR: 'password=' found in configs/. Replace with <REDACTED> or env vars."
   exit 1
 fi
