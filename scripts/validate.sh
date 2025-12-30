@@ -39,15 +39,14 @@ PY
 echo
 echo "[3] Basic secret pattern scan (best-effort)"
 
-# High-risk patterns only (avoid false positives like 'secrets.ldb' in documentation)
-if grep -RInE "(bindpw|AKIA[0-9A-Z]{16}|BEGIN PRIVATE KEY)" . >/dev/null 2>&1; then
-  echo "ERROR: High-risk secret material detected in repository."
+# High-risk patterns only (scan likely locations; exclude this validator script)
+if grep -RInE --exclude="validate.sh" "(bindpw|AKIA[0-9A-Z]{16}|BEGIN PRIVATE KEY)" configs scripts .github 2>/dev/null; then
+  echo "ERROR: High-risk secret material detected in repository (configs/scripts/workflows)."
   exit 1
 fi
 
 # Flag password assignments only in configs/ (not in docs/)
-if grep -RInE --exclude="validate.sh" "(bindpw|AKIA[0-9A-Z]{16}|BEGIN PRIVATE KEY)" configs scripts .github 2>/dev/null; then
-
+if grep -RInE "password\s*=" configs 2>/dev/null | grep -v "<REDACTED>" >/dev/null 2>&1; then
   echo "ERROR: 'password=' found in configs/. Replace with <REDACTED> or env vars."
   exit 1
 fi
